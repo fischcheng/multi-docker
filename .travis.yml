@@ -15,7 +15,7 @@ after_success:
     - docker build -t fischcheng/multi-worker ./client
 
     # Log in to the docker CLI (setting env_var in travis)
-    - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
     # Take those images and push them to docker-hub (how to login from travis??)
     - docker push fischcheng/multi-client
