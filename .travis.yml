@@ -1,0 +1,27 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    - docker build -fischcheng/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run fischcheng/react-test npm test -- --coverage
+
+after_success: 
+    - docker build -t fischcheng/multi-client ./client
+    - docker build -t fischcheng/multi-nginx ./client
+    - docker build -t fischcheng/multi-server ./client
+    - docker build -t fischcheng/multi-worker ./client
+
+    # Log in to the docker CLI (setting env_var in travis)
+    - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
+
+    # Take those images and push them to docker-hub (how to login from travis??)
+    - docker push fischcheng/multi-client
+    - docker push fischcheng/multi-nginx
+    - docker push fischcheng/multi-server
+    - docker push fischcheng/multi-worker
+    
+
+
