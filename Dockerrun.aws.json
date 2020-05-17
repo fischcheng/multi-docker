@@ -1,0 +1,37 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "client",
+            "image": "fischcheng/multi-client",
+            "hostname": "client",
+            "essential": false 
+        },
+        {
+            "name": "server",
+            "image": "fischcheng/multi-server",
+            "hostname": "api",
+            "essential": false             
+        },
+        {
+            "name": "nginx",
+            "image": "fischcheng/multi-nginx",
+            "hostname": "nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["server", "client"]         
+        },
+        {
+            "name": "worker",
+            "image": "fischcheng/multi-worker",
+            "hostname": "worker",
+            "essential": false        
+        }
+
+    ]
+}
